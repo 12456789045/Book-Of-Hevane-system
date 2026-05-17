@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📚 BookHaven Library</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    header {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 2.5em;
+      color: #667eea;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+    
+    .subtitle {
+      color: #888;
+      font-size: 1.1em;
+      font-weight: 300;
+    }
+    
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    @media (max-width: 1000px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+    
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+    
+    h2 {
+      color: #667eea;
+      margin-bottom: 25px;
+      font-size: 1.8em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    #categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    
+    @media (max-width: 600px) {
+      #categories { grid-template-columns: 1fr; }
+    }
+    
+    .category-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 0.95em;
+    }
+    
+    .category-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .category-btn:active {
+      transform: scale(0.98);
+    }
+    
+    #books {
+      background: #f8f9ff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #667eea;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #333;
+    }
+    
+    form {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    label {
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.95em;
+    }
+    
+    input, select {
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      background: #f8f9ff;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    input::placeholder {
+      color: #aaa;
+    }
+    
+    button[type="submit"] {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+    }
+    
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+    
+    .result-container {
+      margin-top: 25px;
+    }
+    
+    .result-label {
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 0.95em;
+    }
+    
+    #result {
+      background: #f8f9ff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #28a745;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      line-height: 1.6;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #333;
+    }
+    
+    #result.error {
+      border-left-color: #e74c3c;
+      background: #ffe8e8;
+    }
+    
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+    
+    .stat-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+    
+    .stat-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 BookHaven Library</h1>
+      <p class="subtitle">Discover & Borrow Your Next Great Read</p>
+    </header>
+    
+    <div class="main-grid">
+      <div class="card">
+        <h2>🎯 Browse Categories</h2>
+        <div id="categories"></div>
+        
+        <h2 style="margin-top: 30px;">📖 Available Books</h2>
+        <div id="books">Select a category to view books.</div>
+      </div>
+      
+      <div class="card">
+        <h2>✨ Borrow a Book</h2>
+        <form id="borrowForm">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input name="name" placeholder="Enter your name" required />
+          </div>
+          
+          <div class="form-group">
+            <label>Age</label>
+            <input name="age" type="number" placeholder="Enter your age" required />
+          </div>
+          
+          <div class="form-group">
+            <label>Gender</label>
+            <input name="gender" placeholder="Male / Female / Other" required />
+          </div>
+          
+          <div class="form-group">
+            <label>Address</label>
+            <input name="address" placeholder="Your address" required />
+          </div>
+          
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input name="mobile" placeholder="+1 (555) 000-0000" required />
+          </div>
+          
+          <div class="form-group">
+            <label>Category</label>
+            <select name="category" id="categorySelect" required></select>
+          </div>
+          
+          <div class="form-group">
+            <label>Book Title</label>
+            <input name="book_title" id="bookTitle" placeholder="Search for a book..." required />
+          </div>
+          
+          <div class="form-group">
+            <label>Borrow Duration (days)</label>
+            <input name="borrow_days" type="number" placeholder="Leave empty for default" />
+          </div>
+          
+          <button type="submit">🚀 Borrow Now</button>
+        </form>
+        
+        <div class="result-container">
+          <div class="result-label">📋 Confirmation</div>
+          <pre id="result">Awaiting your request...</pre>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p>© 2026 BookHaven Library. Built with 💖 for book lovers everywhere.</p>
+    </footer>
+  </div>
+
+  <script>
+    async function loadCategories(){
+      try {
+        const res = await fetch('/api/categories');
+        const data = await res.json();
+        const container = document.getElementById('categories');
+        container.innerHTML='';
+        const select = document.getElementById('categorySelect');
+        select.innerHTML='';
+        data.forEach(c=>{
+          const btn = document.createElement('button');
+          btn.className = 'category-btn';
+          btn.textContent = c.name;
+          btn.type = 'button';
+          btn.onclick = (e)=> {
+            e.preventDefault();
+            loadBooks(c.name);
+          };
+          container.appendChild(btn);
+          const opt = document.createElement('option');
+          opt.value = c.name;
+          opt.textContent = c.name;
+          select.appendChild(opt);
+        });
+        if(data.length>0){
+          loadBooks(data[0].name);
+        }
+      } catch(err) {
+        document.getElementById('categories').textContent = '❌ Failed to load categories';
+      }
+    }
+
+    async function loadBooks(category){
+      try {
+        const res = await fetch('/api/category/' + encodeURIComponent(category) + '/books');
+        const data = await res.json();
+        if(data.error){
+          document.getElementById('books').textContent = '❌ ' + data.error;
+          return;
+        }
+        const books = data.books || [];
+        let out = '';
+        if(books.length === 0) {
+          out = 'No books in this category.';
+        } else {
+          books.forEach(b=>{
+            out += `📕 ${b.title}\n   by ${b.author}\n   Available: ${b.copies} | Max loan: ${b.max_borrow_days} days\n\n`;
+          });
+        }
+        document.getElementById('books').textContent = out;
+        if(books.length>0) document.getElementById('bookTitle').value = books[0].title;
+      } catch(err) {
+        document.getElementById('books').textContent = '❌ Error loading books';
+      }
+    }
+
+    document.getElementById('borrowForm').addEventListener('submit', async (ev)=>{
+      ev.preventDefault();
+      const form = ev.target;
+      const data = {
+        name: form.name.value,
+        age: Number(form.age.value),
+        gender: form.gender.value,
+        address: form.address.value,
+        mobile: form.mobile.value,
+        category: form.category.value,
+      };
+      if(form.borrow_days.value) data.borrow_days = Number(form.borrow_days.value);
+      const bookTitle = form.book_title.value;
+      const url = '/api/borrow?book_title=' + encodeURIComponent(bookTitle);
+      try{
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(data),
+        });
+        const json = await res.json();
+        const resultEl = document.getElementById('result');
+        resultEl.classList.remove('error');
+        if(!res.ok) {
+          resultEl.classList.add('error');
+          resultEl.textContent = '❌ Error: ' + (json.error || 'Unknown error');
+        } else {
+          resultEl.innerHTML = '✅ Success!<br><br>' + JSON.stringify(json, null, 2) + '<br><br><button id="downloadBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">📥 Download Receipt (PDF)</button>';
+          document.getElementById('downloadBtn').onclick = () => {
+            // Extract record_id from response or use a timestamp-based ID
+            const recordId = json.record_id || Date.now();
+            window.location.href = `/receipt/${recordId}`;
+          };
+          form.reset();
+          setTimeout(() => loadCategories(), 1000);
+        }
+      }catch(err){
+        const resultEl = document.getElementById('result');
+        resultEl.classList.add('error');
+        resultEl.textContent = '❌ Network Error: ' + err.message;
+      }
+    });
+
+    // initial load
+    loadCategories();
+  </script>
+</body>
+</html>
