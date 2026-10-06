@@ -1,0 +1,15 @@
+{
+  "name": "bookhaven-library",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@netlify/database": "^2.0.1",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.2",
+    "drizzle-kit": "^1.0.0-beta.22",
+    "typescript": "^7.0.2"
+  }
+}

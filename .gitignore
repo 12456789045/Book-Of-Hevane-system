@@ -7,3 +7,7 @@ library.db
 *.egg-info/
 *.sqlite3
 *.ipynb_checkpoints/
+node_modules/
+
+# Local Netlify folder
+.netlify

@@ -11,7 +11,20 @@ A full-featured library management system with a modern web frontend and REST AP
 - 🔍 **Case-insensitive book search**
 - ✨ **Professional UI** with animations and icons
 
-## Run the app:
+## Run on Netlify
+
+The site deploys to Netlify as-is: `frontend/` is published as the static site, the
+JSON API runs as Netlify Functions (`netlify/functions/`), and data lives in Netlify
+Database (Postgres). The schema is defined in `db/schema.ts`, and migrations in
+`netlify/database/migrations/` (including the seeded book catalog) are applied
+automatically on deploy.
+
+```bash
+npm install
+netlify dev
+```
+
+## Run the legacy Python server locally
 
 ```bash
 pip install -r requirements.txt
@@ -31,7 +44,7 @@ http://127.0.0.1:8000/
 - `POST /api/borrow?book_title=...` - Borrow a book (JSON body with borrower details)
 - `GET /receipt/{record_id}` - Download borrow receipt as PDF
 
-### Plain-text API (CLI/legacy)
+### Plain-text API (CLI/legacy, Python server only)
 
 - `GET /categories` - List categories (tabulated)
 - `GET /category/{name}` - Books in category (tabulated)
