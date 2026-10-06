@@ -76,3 +76,6 @@ After successfully borrowing a book, you'll receive:
 - Borrow duration
 
 Download and keep your receipt as proof of borrowing!
+
+## View On:
+https://hklib.netlify.app/
